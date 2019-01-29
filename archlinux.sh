@@ -12,8 +12,6 @@ git
 id -u $USER 2>/dev/null 1>/dev/null
 if [ $? -ne 0 ]; then
 	useradd -m $USER
-	echo -n "$USER password ? "
-	passwd $USER
 fi
 
 usermod -aG wheel $USER
