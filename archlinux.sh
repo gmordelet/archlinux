@@ -20,6 +20,8 @@ sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 pacman -S --needed --noconfirm $PACKAGES
 systemctl start sshd
 
-su gregoire
-ssh-keygen
-logout
+SSHDIR="/home/$USER/.ssh"
+mkdir $SSHDIR
+chown gregoire $SSHDIR
+ssh-keygen -f $SSHDIR -t rsa -N ''
+
