@@ -14,15 +14,16 @@ if [ $? -ne 0 ]; then
 	useradd -m $USER
 fi
 
+pacman -S --needed --noconfirm $PACKAGES
+
 usermod -aG wheel $USER
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-
-pacman -S --needed --noconfirm $PACKAGES
-systemctl start sshd
 
 SSHDIR="/home/$USER/.ssh"
 mkdir $SSHDIR
 chown gregoire $SSHDIR
 ssh-keygen -f $SSHDIR/id_rsa -t rsa -N ''
 chown $USER $SSHDIR/*
+chgrp $USER $SSHDIR/*
 
+systemctl start sshd
