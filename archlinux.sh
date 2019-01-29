@@ -32,3 +32,4 @@ chown $USER $SSHDIR/*
 chgrp $USER $SSHDIR/*
 
 systemctl start sshd
+systemctl enable sshd
