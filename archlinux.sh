@@ -17,4 +17,9 @@ fi
 usermod -aG wheel $USER
 sed -i 's/# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
 
-pacman -S --noconfirm $PACKAGES
+pacman -S --needed --noconfirm $PACKAGES
+systemctl start sshd
+
+su gregoire
+ssh-keygen
+logout
