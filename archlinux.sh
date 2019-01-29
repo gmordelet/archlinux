@@ -23,5 +23,6 @@ systemctl start sshd
 SSHDIR="/home/$USER/.ssh"
 mkdir $SSHDIR
 chown gregoire $SSHDIR
-ssh-keygen -f $SSHDIR -t rsa -N ''
+ssh-keygen -f $SSHDIR/id_rsa -t rsa -N ''
+chown $USER $SSHDIR/*
 
