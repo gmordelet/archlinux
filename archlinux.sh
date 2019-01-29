@@ -12,6 +12,7 @@ git
 id -u $USER 2>/dev/null 1>/dev/null
 if [ $? -ne 0 ]; then
 	useradd -m $USER
+	passwd $USER
 fi
 
 pacman -S --needed --noconfirm $PACKAGES
