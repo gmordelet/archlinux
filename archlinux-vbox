@@ -10,7 +10,7 @@ mkfs.ext4 /dev/sda1
 mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware networkmanager
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt pacman -S grub << EOF
@@ -19,7 +19,6 @@ hwclock --systohc
 locale-gen
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
-pacman -S networkmanager
 systemctl enable NetworkManager
 systemctl start NetworkManager
 EOF
