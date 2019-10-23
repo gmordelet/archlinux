@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+timedatectl set-ntp true
+parted /dev/sda mklabel msdos
+parted /dev/sda mkpart primary ext4 0% 16GiB
+parted /dev/sda mkpart primary linux-swap 16GiB 100%
+mkfs.ext4 /dev/sda1
+mkswap /dev/sda2
+swapon /dev/sda2
+mount /dev/sda1 /mnt
+pacstrap /mnt base linux linux-firmware
+genfstab -U /mnt >> /mnt/etc/fstab
+
+arch-chroot /mnt pacman -S grub << EOF
+ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+hwclock --systohc
+locale-gen
+grub-install --target=i386-pc /dev/sda
+grub-mkconfig -o /boot/grub/grub.cfg
+pacman -S networkmanager
+systemctl enable NetworkManager
+systemctl start NetworkManager
+EOF
