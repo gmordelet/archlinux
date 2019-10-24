@@ -2,6 +2,8 @@
 
 set -e
 
+PASSWD='$6$YOU1fvVWxtsnpBqH$eAZcyi4//4kMEQ1OOo/GaPIpWGfaoomlkR57OnpqCcs1u533wfWeHobzrbPJQLP.duzxoSfDpyRpvfRkfws870'
+
 timedatectl set-ntp true
 parted /dev/sda mklabel msdos
 parted /dev/sda mkpart primary ext4 0% 16GiB
