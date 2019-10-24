@@ -13,7 +13,7 @@ mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
 pacstrap /mnt base linux linux-firmware networkmanager grub \
-  man-db man-pages texinfo sudo diffutils
+  man-db man-pages texinfo sudo diffutils wget
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt << EOF
@@ -26,4 +26,5 @@ systemctl enable NetworkManager
 useradd --create-home gregoire
 sed -i 's/gregoire:!:\(.*\)/gregoire:'$PASSWD':\1/' /etc/shadow
 sed -i 's/root::\(.*\)/root:'$PASSWD':\1/' /etc/shadow
+cp /etc/shadow /etc/shadow-
 EOF
