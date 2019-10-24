@@ -2,7 +2,7 @@
 
 set -e
 
-PASSWD='$6$YOU1fvVWxtsnpBqH$eAZcyi4//4kMEQ1OOo/GaPIpWGfaoomlkR57OnpqCcs1u533wfWeHobzrbPJQLP.duzxoSfDpyRpvfRkfws870'
+PASSWD='$6$YOU1fvVWxtsnpBqH$eAZcyi4\/\/4kMEQ1OOo\/GaPIpWGfaoomlkR57OnpqCcs1u533wfWeHobzrbPJQLP.duzxoSfDpyRpvfRkfws870'
 
 timedatectl set-ntp true
 parted /dev/sda mklabel msdos
@@ -24,4 +24,6 @@ grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
 useradd --create-home gregoire
+sed -i 's/gregoire:!:\(.*\)/gregoire:'$PASSWD':\1/' /etc/shadow
+sed -i 's/root::\(.*\)/root:'$PASSWD':\1/' /etc/shadow
 EOF
