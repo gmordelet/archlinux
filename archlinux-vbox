@@ -10,7 +10,8 @@ mkfs.ext4 /dev/sda1
 mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
-pacstrap /mnt base linux linux-firmware networkmanager grub
+pacstrap /mnt base linux linux-firmware networkmanager grub \
+  man-db man-pages texinfo sudo diffutils
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt << EOF
@@ -20,4 +21,5 @@ locale-gen
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
+useradd --create-home gregoire
 EOF
