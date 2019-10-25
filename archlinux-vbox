@@ -5,6 +5,8 @@ set -e
 #Les mdps doivent etre mis a la main 
 #PASSWD='$6$YOU1fvVWxtsnpBqH$eAZcyi4\/\/4kMEQ1OOo\/GaPIpWGfaoomlkR57OnpqCcs1u533wfWeHobzrbPJQLP.duzxoSfDpyRpvfRkfws870'
 
+USER=gregoire
+
 timedatectl set-ntp true
 parted /dev/sda mklabel msdos
 parted /dev/sda mkpart primary ext4 0% 16GiB
@@ -14,7 +16,7 @@ mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
 pacstrap /mnt base linux linux-firmware networkmanager grub \
-  man-db man-pages texinfo sudo diffutils wget
+  man-db man-pages texinfo sudo diffutils wget lxde xorg-xinit
 genfstab -U /mnt >> /mnt/etc/fstab
 
 arch-chroot /mnt << EOF
@@ -24,10 +26,11 @@ locale-gen
 grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 systemctl enable NetworkManager
-useradd --create-home gregoire
-#sed -i 's/gregoire:!:\(.*\)/gregoire:'$PASSWD':\1/' /etc/shadow
+useradd --create-home $USER
+#sed -i 's/$USER:!:\(.*\)/$USER:'$PASSWD':\1/' /etc/shadow
 #sed -i 's/root::\(.*\)/root:'$PASSWD':\1/' /etc/shadow
 #cp /etc/shadow /etc/shadow-
-usermod -aG wheel gregoire
+usermod -aG wheel $USER
 sed -i 's/#\s*\(%wheel ALL=(ALL) ALL\)/\1/' /etc/sudoers
+echo exec startlxde >> /home/$USER/.xinitrc
 EOF
